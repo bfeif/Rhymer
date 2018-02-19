@@ -54,3 +54,28 @@ def get_rhyme_similarity(word1, word2, dist_metric='default'):
 	if dist_metric=='default':
 		rhyme_similarity = 2 * len(sub) / (len(word1) + len(word2))
 	return rhyme_similarity
+
+
+def load_data(location='../data/cmudict.dict', sampsize=None):
+	'''
+	Loads dictionary of (word: phone) data.
+
+	Parameters
+	----------
+	location (string)
+		Location of the file.
+	sampsize (int)
+		How many words to sample from the dictionary (10^6 total words). If None, then all words are returned.
+
+	Returns
+	-------
+	dict
+		format is {word: (primary_key, phone_sequence)}
+	'''
+	data = open(location).readlines()
+	if sampsize is None:
+		splitted = [i.replace('\n', '').split(' ') for i in data]
+	else:
+		splitted = random.sample([i.replace('\n', '').split(' ') for i in data], sampsize)
+	word_seq_pairs = {i[0]: (index, i[1:]) for index, i in enumerate(splitted)}
+	return word_seq_pairs
