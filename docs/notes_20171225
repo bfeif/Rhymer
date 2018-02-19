@@ -1,0 +1,34 @@
+2017-12-25
+	TLDR:
+	some ideas for going forward....i can use this dataset to label word pairs as rhymes or not, then use that to train some rhyme word embedding NN. Then, do transfer learning from that to a more general database to generalize it (?), and use for some rhyming application....really, i have no idea.
+
+	steps to get there:
+	1) develop/test 'rhyme similarity metric'
+		- desirable properties of distance metric:
+			- [min, max] = [0, 1]
+		- will use 
+	2) train nearest neighbors classifier (or some classifier (lol)) on word pairs.
+		- if two words are similar enough by rhyme, then they are classified as a rhyme
+	3) use the nearest neighbors classifier to generate a 'rhyme pair dataset'
+		- Each record has the form {word1, word2, rhyme_similarity}
+	4) use dataset generated in (3) to train word embeddings
+	5) use AMT to generate dataset from rap songs--this will help include 'phrases'
+		- Each record has the form {phrase1, phrase2, rhyme similarity}.
+		- This dataset will transfer learn to new words and phrases
+	6) use dataset from (5) to transfer learn the word embeddings to rap
+
+
+	other ideas:
+	- use lstm thing to learn a 'rapper'
+	- or use these word embeddings as an 'add-on' for other neural nets that generate summaries of documents. you could take the summary and make it a 'rhyme' one.
+
+
+			Here, I actually wonder if there are any really good systems that get you from word to sequence. I think that's what the kaggle competition was about. somebody must have won...That way, I could use that system to automatically process rap lyrics..
+
+
+2017-12-25
+	so, for the output of whatever neural net classifier, it should be a continuous value [0, 1] based off of the rhyme similarity metric. i might want to have an option for a log based metric. this may be better capturing the dataset, since as word1 and word2 grow longer, the expected length of s probably grows as log.
+
+	so, that experiment didn't work out extremely well... at least, the way i was visualzing it ddn't realy make sense. i should probably do something with CDF to better visualize.
+
+	I wondeer if i can do something similar to Glove vectors, by starting with a similarity metric and getting to an embedded space
